@@ -33,7 +33,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - run: make ci
+    - run: npm intsall 
+    - run: npm test
       env:
         CI: true
         
