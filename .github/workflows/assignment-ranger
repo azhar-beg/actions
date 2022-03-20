@@ -1,0 +1,41 @@
+name: power-ranger
+
+on:
+  repository_dispatch:
+    types: [new-assignment-event]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [15.x]
+
+    steps:
+      - name: Checkout action repo
+        uses: actions/checkout@v2
+    
+      - name: Checkout interns repo  
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.client_payload.repo_name }}
+          token: ${{secrets.GIT_HUB_TOKEN}}
+          path: __source
+
+      - name: configure node 
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}  
+
+      - name: Push new assignment 
+        run: |
+          node ranger.js
+
+      - name: Commit and push the next assignment name
+        run: |
+          cd __source
+          git config user.name "GitHub JARVIS"
+          git config user.email "<>"
+          git add .
+          git commit -m "New assignment created."
+          git push
