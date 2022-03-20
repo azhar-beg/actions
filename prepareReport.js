@@ -3,6 +3,7 @@ const report = require('../report.json');
 
 const HEAD_COMMIT = process.env.HEAD_COMMIT;
 const TEST_REPO_NAME = process.env.TEST_REPO_NAME;
+const REPO_NAME = process.env.REPO_NAME;
 
 const commit = JSON.parse(HEAD_COMMIT);
 const tests = report.tests;
@@ -17,6 +18,8 @@ const reportWithMeta = {
   timestamp: commit.timestamp,
   stats,
   test_repo_name: TEST_REPO_NAME,
+  testRepoName: TEST_REPO_NAME,
+  repoName: REPO_NAME,
   tests,
   commit
 };
