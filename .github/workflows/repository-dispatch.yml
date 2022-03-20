@@ -42,13 +42,14 @@ jobs:
       env:
         HEAD_COMMIT: ${{  toJson(github.event.client_payload.body.head_commit) }}
         TEST_REPO_NAME: ${{ github.event.client_payload.test_repo_name }}
+        REPO_NAME: ${{ github.event.client_payload.repo_name }}
     - name: Read report
       id : package
       uses: juliangruber/read-file-action@v1
       with: 
         path: ./report-with-meta.json
            
-    - name: Post to server back.
+    - name: Post results back to the server.
       uses: CamiloGarciaLaRotta/watermelon-http-client@v1
       id : request 
       with:
