@@ -38,7 +38,7 @@ jobs:
           git diff --quiet || echo "::set-output name=diff::true"    
 
       - name: Commit and push the next assignment name
-        if: steps.verify_diff.outputs.diff == 'true'
+        if: ${{ steps.verify_diff.outputs.diff }} == 'true'
         run: |
           cd __source
           git config user.name "JARVIS"
