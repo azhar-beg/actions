@@ -34,7 +34,7 @@ jobs:
       - name: Commit and push the next assignment name
         run: |
           cd __source
-          git config user.name "GitHub JARVIS"
+          git config user.name "JARVIS"
           git config user.email "<>"
           git add .
           git commit -m "New assignment created."
