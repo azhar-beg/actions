@@ -30,8 +30,15 @@ jobs:
       - name: Push new assignment 
         run: |
           node ranger.js
+          
+      - name: If new assignment has been created 
+        id: verify_diff
+        run: |
+          cd __source
+          git diff --quiet || echo "::set-output name=diff::true"    
 
       - name: Commit and push the next assignment name
+        if: steps.verify_diff.outputs.diff == 'true'
         run: |
           cd __source
           git config user.name "JARVIS"
