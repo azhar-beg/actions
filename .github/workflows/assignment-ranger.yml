@@ -22,6 +22,13 @@ jobs:
           token: ${{secrets.GIT_HUB_TOKEN}}
           path: __source
 
+      - name: Checkout test repo  
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.client_payload.test_repo_name }}
+          token: ${{secrets.GIT_HUB_TOKEN}}
+          path: __test
+
       - name: configure node 
         uses: actions/setup-node@v1
         with:
@@ -29,7 +36,7 @@ jobs:
 
       - name: Push new assignment 
         run: |
-          node ranger.js
+          node ranger.js __test/assignments.json
           
       - name: If new assignment has been created 
         id: verify_diff
@@ -39,10 +46,10 @@ jobs:
 
       - name: Commit and push the next assignment name
         if: ${{ steps.verify_diff.outputs.diff }} == 'true'
-        run: |
-          cd __source
-          git config user.name "JARVIS"
-          git config user.email "<>"
-          git add .
-          git commit -m "New assignment created."
-          git push
+          run: |
+            cd __source
+            git config user.name "JARVIS"
+            git config user.email "<>"
+            git add .
+            git commit -m "New assignment created."
+            git push

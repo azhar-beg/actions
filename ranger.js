@@ -1,5 +1,4 @@
 const fs = require('fs');
-const json = require('./assignments.json');
 
 const SOURCE_PATH = './__source/src';
 
@@ -39,5 +38,8 @@ const assign = function (assignments) {
   const code = toFunction(assignment);
   writeFile(assignment, code);
 };
+
+const args = process.argv.slice(2);
+const json = args.length ? require(args[0]) : { "assignments": [] };
 
 assign(json.assignments);
