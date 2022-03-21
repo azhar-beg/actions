@@ -46,10 +46,10 @@ jobs:
 
       - name: Commit and push the next assignment name
         if: ${{ steps.verify_diff.outputs.diff }} == 'true'
-          run: |
-            cd __source
-            git config user.name "JARVIS"
-            git config user.email "<>"
-            git add .
-            git commit -m "New assignment created."
-            git push
+        run: |
+          cd __source
+          git config user.name "JARVIS"
+          git config user.email "<>"
+          git add .
+          git commit -m "New assignment created."
+          git push
