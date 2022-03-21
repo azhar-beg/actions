@@ -36,7 +36,8 @@ jobs:
 
       - name: Push new assignment 
         run: |
-          node ranger.js __test/assignments.json
+          ls  __test
+          node ranger.js __test/${{ github.event.client_payload.test_repo_name }}/assignments.json
           
       - name: If new assignment has been created 
         id: verify_diff
