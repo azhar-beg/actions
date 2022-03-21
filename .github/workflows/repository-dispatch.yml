@@ -43,6 +43,7 @@ jobs:
         HEAD_COMMIT: ${{  toJson(github.event.client_payload.body.head_commit) }}
         TEST_REPO_NAME: ${{ github.event.client_payload.test_repo_name }}
         REPO_NAME: ${{ github.event.client_payload.repo_name }}
+        USERNAME: ${{ github.event.client_payload.username }}
     - name: Read report
       id : package
       uses: juliangruber/read-file-action@v1
