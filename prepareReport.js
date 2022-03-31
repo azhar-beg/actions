@@ -11,6 +11,11 @@ const tests = report.tests;
 const stats = report.stats;
 
 
+let lintReport = {};
+if (fs.existsSync('../lint-report.json')) {
+  lintReport = require('../lint-report.json');
+}
+
 const reportWithMeta = {
   username: USERNAME,
   timestamp: commit.timestamp,
@@ -18,6 +23,7 @@ const reportWithMeta = {
   test_repo_name: TEST_REPO_NAME,
   testRepoName: TEST_REPO_NAME,
   repoName: REPO_NAME,
+  lintReport: lintReport,
   tests,
   commit
 };
