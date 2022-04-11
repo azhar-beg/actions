@@ -1,45 +1,41 @@
 const fs = require('fs');
-
 const SOURCE_PATH = './__source/src';
 
-
-const toFunction = (name) => {
-  return `const ${name} = function () {
-  return true;
+const toFunction = (t) => {
+  const content =
+    `const ${t.functionName} = function(${t.parameters}) {
+  return ${t.returnValue};
 };
-
-exports.${name} = ${name};
-  `;
+exports.${t.functionName} = ${t.functionName};
+`;
+  return { content, fileName: t.fileName };
 }
 
-const writeFile = function (name, code) {
-  const fileName = `${SOURCE_PATH}/${name}.js`;
+const getNextAssignment = (assignments, srcFiles) => {
+  const existingAssignments = srcFiles.filter(f => f.includes('.js'));
+  const nextAssignment = assignments.find(assignment => {
+    return !existingAssignments.includes(assignment.fileName);
+  });
+  return nextAssignment;
+}
+
+const writeFile = function (f) {
+  const fileName = `${SOURCE_PATH}/${f.fileName}`;
   if (!fs.existsSync(fileName)) {
-    fs.writeFileSync(fileName, code);
+    fs.writeFileSync(fileName, f.content);
     console.log(`Created ${fileName}`);
   }
 };
-
-const getNextAssignment = function (assignments) {
-  const existingAssignments = fs.readdirSync(`${SOURCE_PATH}/`)
-    .filter(file => file.includes('.js'))
-    .map(file => file.replace('.js', ''));
-  const nextAssignment = assignments.find(assignment => {
-    return !existingAssignments.includes(assignment);
-  });
-  return nextAssignment;
-};
-
 const assign = function (assignments) {
-  const assignment = getNextAssignment(assignments);
+  const srcFiles = fs.readdirSync(`${SOURCE_PATH}/`);
+  const assignment = getNextAssignment(assignments, srcFiles);
   if (!assignment) {
     return;
   }
-  const code = toFunction(assignment);
-  writeFile(assignment, code);
+  writeFile(toFunction(assignment));
 };
 
 const args = process.argv.slice(2);
-const json = args.length ? require(args[0]) : { "assignments": [] };
+const json = args.length ? require(args[0]) : { assignments: [] };
 
 assign(json.assignments);

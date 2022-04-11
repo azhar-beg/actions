@@ -1,8 +1,16 @@
 {
   "assignments": [
-    "isPrime",
-    "add",
-    "subtract",
-    "factorial"
+    {
+      "fileName": "add.js",
+      "functionName": "add",
+      "parameters": "a,b",
+      "returnValue": "1"
+    },
+    {
+      "fileName": "reverse.js",
+      "functionName": "reverse",
+      "parameters": "number",
+      "returnValue": ""
+    }
   ]
 }
