@@ -4,7 +4,8 @@
       "fileName": "add.js",
       "functionName": "add",
       "parameters": "a,b",
-      "returnValue": "1"
+      "returnValue": "1",
+      "description": "This is just a description"
     },
     {
       "fileName": "reverse.js",
