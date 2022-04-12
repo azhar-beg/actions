@@ -1,9 +1,18 @@
 const fs = require('fs');
 const SOURCE_PATH = './__source/src';
 
+
+const getDescription = (assignment) => {
+  if (assignment.description) {
+    return assignment.description;
+  }
+  return assignment.functionName;
+}
+
 const toFunction = (t) => {
   const content =
-    `const ${t.functionName} = function(${t.parameters}) {
+    `// ${getDescription(t)} 
+const ${t.functionName} = function(${t.parameters}) {
   return ${t.returnValue};
 };
 exports.${t.functionName} = ${t.functionName};
