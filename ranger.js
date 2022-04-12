@@ -11,6 +11,17 @@ exports.${t.functionName} = ${t.functionName};
   return { content, fileName: t.fileName };
 }
 
+const shuffle = function (list) {
+  let index = list.length;
+  let randomIndex = 0;
+  while (index !== 0) {
+    randomIndex = Math.floor(Math.random() * list.length);
+    index--;
+    [list[index], list[randomIndex]] = [list[randomIndex], list[index]];
+  }
+  return list;
+};
+
 const getNextAssignment = (assignments, srcFiles) => {
   const existingAssignments = srcFiles.filter(f => f.includes('.js'));
   const nextAssignment = assignments.find(assignment => {
@@ -38,4 +49,4 @@ const assign = function (assignments) {
 const args = process.argv.slice(2);
 const json = args.length ? require(args[0]) : { assignments: [] };
 
-assign(json.assignments);
+assign(shuffle(json.assignments));
