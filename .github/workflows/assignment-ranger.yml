@@ -43,6 +43,16 @@ jobs:
         run: |
           cd __source
           git diff --quiet || echo "::set-output name=diff::true"    
+          echo "LOCAL_COMMIT=$(git rev-parse HEAD)" >> $GITHUB_ENV
+          echo "REMOTE_COMMIT=${{ github.event.client_payload.body.head_commit }}" >> $GITHUB_ENV
+          echo "DIRTY=$(git diff --quiet)" >> $GITHUB_ENV
+
+      - name:
+        id: debug_values
+        run: |
+          echo $LOCAL_COMMIT
+          echo $REMOTE_COMMIT
+          echo $DIRTY
 
       - name: Commit and push the next assignment name
         if: ${{ steps.verify_diff.outputs.diff }} == 'true'
