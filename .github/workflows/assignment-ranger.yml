@@ -44,7 +44,7 @@ jobs:
           cd __source
           git diff --quiet || echo "::set-output name=diff::true"    
           echo "LOCAL_COMMIT=$(git rev-parse HEAD)" >> $GITHUB_ENV
-          echo "REMOTE_COMMIT=${{ github.event.client_payload.body.commit }}" >> $GITHUB_ENV
+          echo "REMOTE_COMMIT=${{ github.event.client_payload.body.commit.id }}" >> $GITHUB_ENV
           echo "DIRTY=$(git diff)" >> $GITHUB_ENV
 
       - name:
