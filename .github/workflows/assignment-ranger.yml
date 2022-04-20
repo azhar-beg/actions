@@ -55,7 +55,7 @@ jobs:
           exit 1
 
       - name: Commit and push the next assignment name
-        # if: ${{ env.DIRTY != '' }}
+        if: ${{ env.DIRTY != '' }}
         run: |
           cd __source
           git config user.name "JARVIS"
