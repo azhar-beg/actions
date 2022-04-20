@@ -46,7 +46,7 @@ jobs:
           git diff --cached --quiet || echo "::set-output name=diff::true"
           echo "LOCAL_COMMIT=$(git rev-parse HEAD)" >> $GITHUB_ENV
           echo "REMOTE_COMMIT=${{ github.event.client_payload.body.commit.id }}" >> $GITHUB_ENV
-          echo "DIRTY=$(git diff --cached)" >> $GITHUB_ENV
+          echo "DIRTY=$(git diff --cached --quiet || echo "dirty")" >> $GITHUB_ENV
 
       - name:
         id: if_redundant_commit
