@@ -7,6 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     strategy:
       matrix:
         node-version: [15.x]
@@ -39,14 +40,13 @@ jobs:
         run: |
           echo "ASSIGNMENT_NAME=$(node ranger.js ./__test/assignments.json)" >> $GITHUB_ENV
           
-      - name: Record if new assignment is created 
-        id: verify_diff
+      - name: Record the git sha
+        id: record_sha
         run: |
           cd __source
           git add .
           echo "LOCAL_COMMIT=$(git rev-parse HEAD)" >> $GITHUB_ENV
           echo "REMOTE_COMMIT=${{ github.event.client_payload.body.commit.id }}" >> $GITHUB_ENV
-          echo "DIRTY=$(git diff --cached --quiet || echo "dirty")" >> $GITHUB_ENV
 
       - name: Is Duplicate event ?
         id: if_redundant_commit
@@ -55,7 +55,7 @@ jobs:
           exit 1
 
       - name: Commit and push the next assignment
-        if: ${{ env.DIRTY != '' }}
+        if: ${{ env.ASSIGNMENT_NAME != '' }}
         run: |
           cd __source
           git config user.name "JARVIS"
