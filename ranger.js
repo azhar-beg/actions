@@ -43,7 +43,7 @@ const writeFile = function (f) {
   const fileName = `${SOURCE_PATH}/${f.fileName}`;
   if (!fs.existsSync(fileName)) {
     fs.writeFileSync(fileName, f.content);
-    console.log(`Created ${fileName}`);
+    console.log(`Created ${f.fileName}`);
   }
 };
 const assign = function (assignments) {
