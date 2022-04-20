@@ -39,7 +39,7 @@ jobs:
         run: |
           echo "ASSIGNMENT_NAME=$(node ranger.js ./__test/assignments.json)" >> $GITHUB_ENV
           
-      - name: If new assignment has been created 
+      - name: Record if new assignment is created 
         id: verify_diff
         run: |
           cd __source
@@ -48,7 +48,7 @@ jobs:
           echo "REMOTE_COMMIT=${{ github.event.client_payload.body.commit.id }}" >> $GITHUB_ENV
           echo "DIRTY=$(git diff --cached --quiet || echo "dirty")" >> $GITHUB_ENV
 
-      - name:
+      - name: Is Duplicate event ?
         id: if_redundant_commit
         if: ${{ env.REMOTE_COMMIT != env.LOCAL_COMMIT }}
         run: |
@@ -59,7 +59,7 @@ jobs:
         run: |
           cd __source
           git config user.name "JARVIS"
-          git config user.email "<>"
+          git config user.email "jarvis@step.in"
           git add .
           git commit -m "New assignment ${{env.ASSIGNMENT_NAME}}"
           git pull --rebase
