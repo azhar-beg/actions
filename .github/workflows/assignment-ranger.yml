@@ -15,7 +15,7 @@ jobs:
       - name: Checkout action repo
         uses: actions/checkout@v2
     
-      - name: Checkout interns repo  
+      - name: Checkout interns repo ${{ github.event.client_payload.repo_name }}
         uses: actions/checkout@v2
         with:
           repository: ${{ github.event.client_payload.repo_name }}
@@ -34,16 +34,16 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}  
 
-      - name: Push new assignment 
+      - name: Create new assignment 
+        id: create_new_statement
         run: |
-          node ranger.js ./__test/assignments.json
+          echo "ASSIGNMENT_NAME=$(node ranger.js ./__test/assignments.json)" >> $GITHUB_ENV
           
       - name: If new assignment has been created 
         id: verify_diff
         run: |
           cd __source
           git add .
-          git diff --cached --quiet || echo "::set-output name=diff::true"
           echo "LOCAL_COMMIT=$(git rev-parse HEAD)" >> $GITHUB_ENV
           echo "REMOTE_COMMIT=${{ github.event.client_payload.body.commit.id }}" >> $GITHUB_ENV
           echo "DIRTY=$(git diff --cached --quiet || echo "dirty")" >> $GITHUB_ENV
@@ -54,13 +54,13 @@ jobs:
         run: |
           exit 1
 
-      - name: Commit and push the next assignment name
+      - name: Commit and push the next assignment
         if: ${{ env.DIRTY != '' }}
         run: |
           cd __source
           git config user.name "JARVIS"
           git config user.email "<>"
           git add .
-          git commit -m "New assignment created."
+          git commit -m "New assignment ${{env.ASSIGNMENT_NAME}}"
           git pull --rebase
           git push
