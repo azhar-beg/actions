@@ -58,7 +58,7 @@ jobs:
         url: ${{secrets.SERVER_URL}}
         method: post
         headers: '{ "Content-Type": "application/json" }'
-        data: '::add-mask:: ${{ steps.package.outputs.content }}'
+        data: ${{ steps.package.outputs.content }}
         
     - name: Print the response status
       run: echo ${{ steps.request.outputs.status }}
